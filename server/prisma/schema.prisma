@@ -12,3 +12,30 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Tipo_Profissional {
+  id          Int       @id @default(autoincrement())
+  descricao   String
+  situacao    String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime
+  profissionais Profissional[]
+
+  @@map("tipo_profissional")
+}
+
+model Profissional {
+  id                Int          @id @default(autoincrement())
+  nome              String
+  telefone          String
+  email             String
+  tipoDeProfissional Tipo_Profissional @relation(fields: [profissionalId], references: [id])
+  situacao          String
+  profissionalId    Int
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@map("profissional")
+}
+
+
