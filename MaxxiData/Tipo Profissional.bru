@@ -1,0 +1,18 @@
+meta {
+  name: Tipo Profissional
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/register/tipo-profissional
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "descricao": "Médico",
+    "situacao": "Inativo"
+  }
+}

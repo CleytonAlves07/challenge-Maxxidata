@@ -1,0 +1,21 @@
+meta {
+  name: Profissional
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/register/profissional
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "nome": "João Silva",
+    "telefone": "123456789",
+    "email": "joao.silva@example.com",
+    "situacao": "ativo",
+    "profissionalId": 1
+  }
+}
