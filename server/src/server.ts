@@ -1,8 +1,10 @@
 import { configDotenv } from 'dotenv';
+import 'express-async-errors';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import { tipoProfissionalRouter } from './routers/tipoProfissionalRouter';
+import { ProfissionalRouter } from './routers/ProfissionalRouter';
 
 
 const app = express();
@@ -22,11 +24,8 @@ configDotenv();
 
 const PORT = process.env.PORT || 3001;
 
-// app.get('/', (req, res) => {
-//   res.send('Hello, TypeScript + Express + Dotenv!');
-// });
-
 app.use('/', tipoProfissionalRouter);
+app.use('/', ProfissionalRouter);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);

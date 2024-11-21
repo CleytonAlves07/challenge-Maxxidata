@@ -5,7 +5,7 @@ import { registerTipoProfissionalController } from '../controller/registerTipoPr
 
 const tipoProfissionalRouter = Router();
 
-tipoProfissionalRouter.post('/register/tipo_profissional', registerTipoProfissionalController);
+tipoProfissionalRouter.post('/register/tipo-profissional', registerTipoProfissionalController);
 
 
 export {tipoProfissionalRouter}
