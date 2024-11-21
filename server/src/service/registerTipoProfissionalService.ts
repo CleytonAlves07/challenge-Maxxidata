@@ -1,4 +1,5 @@
 import { prisma } from '../db/prismaClient';
+import HttpException from '../errors/HttpException';
 
 export interface TipoProfissional {
   descricao: string;
@@ -7,6 +8,9 @@ export interface TipoProfissional {
 
 export const registerTipoProfissionalService = async ({ descricao, situacao }: TipoProfissional) => {
   try {
+    if (!descricao || !situacao) {
+      throw new HttpException(400, "Todos os campos são obrigatórios.");
+    }
     const tipoProfissional = await prisma.tipoProfissional.create({
       data: {
         descricao,
@@ -16,7 +20,7 @@ export const registerTipoProfissionalService = async ({ descricao, situacao }: T
 
     return { success: true, tipoProfissional };
   } catch (error) {
-    console.error("Erro ao registrar TipoProfissional:", error);
-    throw new Error("Não foi possível registrar o TipoProfissional.");
+    console.error("Erro ao registrar tipo profissional:", error);
+    throw new HttpException(500, "Erro interno ao registrar o tipo profissional.");
   }
 };

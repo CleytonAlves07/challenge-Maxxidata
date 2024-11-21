@@ -9,11 +9,6 @@ export const registerProfissionalController = async (
   try {
     const { nome, telefone, email, situacao, profissionalId } = req.body;
 
-    if (!nome || !telefone || !email || !situacao || !profissionalId) {
-      res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
-      return;
-    }
-
     const { success, profissional, error } = await registerProfissionalService({
       nome,
       telefone,
@@ -22,13 +17,8 @@ export const registerProfissionalController = async (
       profissionalId,
     });
 
-    if (!success) {
-      res.status(500).json({ error });
-      return;
-    }
-
     res.status(201).json({ message: 'Profissional criado com sucesso!', profissional, success });
   } catch (err) {
-    next(err); // Passa o erro para o middleware global
+    next(err);
   }
 };
