@@ -10,7 +10,7 @@ export interface IProfissional {
   profissionalId: number;
 }
 
-export const registerProfissionalService = async ({
+export const createProfissionalService = async ({
   nome,
   telefone,
   email,

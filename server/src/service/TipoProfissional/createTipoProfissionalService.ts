@@ -7,7 +7,7 @@ export interface ITipoProfissional {
   situacao: string;
 }
 
-export const registerTipoProfissionalService = async ({ descricao, situacao }: ITipoProfissional) => {
+export const createTipoProfissionalService = async ({ descricao, situacao }: ITipoProfissional) => {
   try {
     await Promise.all([
       infoEmpty({ descricao, situacao }),

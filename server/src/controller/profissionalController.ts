@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { registerProfissionalService } from '../service/Profissional/registerProfissionalService';
+import { createProfissionalService } from '../service/Profissional/createProfissionalService';
 
-export const registerProfissionalController = async (
+export const createProfissionalController = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -9,7 +9,7 @@ export const registerProfissionalController = async (
   try {
     const { nome, telefone, email, situacao, profissionalId } = req.body;
 
-    const { success, profissional } = await registerProfissionalService({
+    const { success, profissional } = await createProfissionalService({
       nome,
       telefone,
       email,

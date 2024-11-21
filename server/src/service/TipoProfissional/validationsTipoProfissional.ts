@@ -1,5 +1,5 @@
 import HttpException from '../../errors/HttpException';
-import { ITipoProfissional } from './registerTipoProfissionalService';
+import { ITipoProfissional } from './createTipoProfissionalService';
 
 
 export const infoEmpty = async ({

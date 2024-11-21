@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
-import { registerTipoProfissionalService } from '../service/TipoProfissional/registerTipoProfissionalService';
+import { registerTipoProfissionalService } from '../service/TipoProfissional/createTipoProfissionalService';
 
-export const registerTipoProfissionalController = async (
+export const createTipoProfissionalController = async (
   req: Request, 
   res: Response, 
   next: NextFunction): Promise<void> => {
   const { descricao, situacao } = req.body;
 
   try {
-    const { success, tipoProfissional } = await registerTipoProfissionalService({ descricao, situacao });
+    const { success, tipoProfissional } = await createTipoProfissionalService({ descricao, situacao });
 
     
     res.status(201).json({

@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { registerProfissionalController } from '../controller/registerProfissionalController';
+import { createProfissionalController } from '../controller/profissionalController';
 
 const ProfissionalRouter = Router();
 
-ProfissionalRouter.post('/register/profissional', registerProfissionalController);
+ProfissionalRouter.post('/register/profissional', createProfissionalController);
 
 
 export {ProfissionalRouter}

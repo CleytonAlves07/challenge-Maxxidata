@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { registerTipoProfissionalController } from '../controller/registerTipoProfissionalController';
+import { createTipoProfissionalController } from '../controller/tipoProfissionalController';
 
 
 
 const tipoProfissionalRouter = Router();
 
-tipoProfissionalRouter.post('/register/tipo-profissional', registerTipoProfissionalController);
+tipoProfissionalRouter.post('/register/tipo-profissional', createTipoProfissionalController);
 
 
 export {tipoProfissionalRouter}
