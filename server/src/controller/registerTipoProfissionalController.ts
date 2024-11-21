@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { registerTipoProfissionalService } from '../service/registerTipoProfissionalService';
+import { registerTipoProfissionalService } from '../service/TipoProfissional/registerTipoProfissionalService';
 
 export const registerTipoProfissionalController = async (
   req: Request, 

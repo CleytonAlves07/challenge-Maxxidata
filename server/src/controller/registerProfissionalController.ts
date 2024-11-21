@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { registerProfissionalService } from '../service/registerProfissionalService';
+import { registerProfissionalService } from '../service/Profissional/registerProfissionalService';
 
 export const registerProfissionalController = async (
   req: Request,
@@ -9,7 +9,7 @@ export const registerProfissionalController = async (
   try {
     const { nome, telefone, email, situacao, profissionalId } = req.body;
 
-    const { success, profissional, error } = await registerProfissionalService({
+    const { success, profissional } = await registerProfissionalService({
       nome,
       telefone,
       email,
@@ -18,7 +18,7 @@ export const registerProfissionalController = async (
     });
 
     res.status(201).json({ message: 'Profissional criado com sucesso!', profissional, success });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
