@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { registerTipoProfissionalService } from '../service/TipoProfissional/createTipoProfissionalService';
+import { createTipoProfissionalService } from '../service/TipoProfissional/createTipoProfissionalService';
+import { getAllTipoProfissionalService } from '../service/TipoProfissional/getAllTipoProfissionalService';
 
 export const createTipoProfissionalController = async (
   req: Request, 
@@ -20,3 +21,9 @@ export const createTipoProfissionalController = async (
     next(error);
   }
 };
+
+export const getAllTipoProfissionalController = async (_req: Request, res: Response, _next: NextFunction) => {
+  const tiposProfissionais = await getAllTipoProfissionalService();
+
+  res.status(200).json(tiposProfissionais);
+}

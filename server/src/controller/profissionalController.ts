@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { createProfissionalService } from '../service/Profissional/createProfissionalService';
+import { createProfissionalService, IProfissional } from '../service/Profissional/createProfissionalService';
+import { getAllProfissionalService } from '../service/Profissional/getAllProfissionalService';
 
 export const createProfissionalController = async (
   req: Request,
@@ -17,8 +18,14 @@ export const createProfissionalController = async (
       profissionalId,
     });
 
-    res.status(201).json({ message: 'Profissional criado com sucesso!', profissional, success });
+    res.status(201).json({ message: "Profissional criado com sucesso!", profissional, success });
   } catch (error) {
     next(error);
   }
 };
+
+export const getAllProfissionalController = async (_req: Request, res: Response, _next: NextFunction) => {
+  const profissionais = await getAllProfissionalService();
+
+  res.status(200).json(profissionais);
+}
