@@ -18,13 +18,22 @@ export const createProfissionalService = async ({
   profissionalId,
 }: IProfissional) => {
   try {
-    await Promise.all([
-      infoEmpty({ nome, telefone, email, situacao, profissionalId }),
-      validateNome(nome),
-      validatePhone(telefone),
-      validateEmail(email)
-      
-    ]);
+    infoEmpty({ nome, telefone, email, situacao, profissionalId });
+    validateNome(nome);
+    validatePhone(telefone);
+    validateEmail(email);
+
+    const existingProfissional = await prisma.profissional.findFirst({
+      where: { OR: [{ email }, { telefone }] },
+    });
+
+    if (existingProfissional) {
+      throw new HttpException(
+        400,
+        "Já existe um profissional com o mesmo email ou telefone."
+      );
+    }
+
     const profissional = await prisma.profissional.create({
       data: {
         nome,

@@ -1,19 +1,19 @@
 import HttpException from '../../errors/HttpException';
 import { IProfissional } from './createProfissionalService';
 
-
-export const infoEmpty = async ({
+export const infoEmpty = ({
   nome,
   telefone,
   email,
   situacao,
-  profissionalId
-}: IProfissional): Promise<void> => {
-  if (!nome || !telefone || !email || !situacao || !profissionalId) {
-      throw new HttpException(400,"Todos os campos são obrigatórios.");
-    }
-}
-
+  profissionalId,
+}: IProfissional): void => {
+  if (!nome) throw new HttpException(400, "O campo 'nome' é obrigatório.");
+  if (!telefone) throw new HttpException(400, "O campo 'telefone' é obrigatório.");
+  if (!email) throw new HttpException(400, "O campo 'email' é obrigatório.");
+  if (!situacao) throw new HttpException(400, "O campo 'situação' é obrigatório.");
+  if (!profissionalId) throw new HttpException(400, "O campo 'profissionalId' é obrigatório.");
+};
 
 export const validateNome = (nome: string): void => {
   const nomeRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'’-]+$/;
@@ -32,24 +32,20 @@ export const validateNome = (nome: string): void => {
   }
 };
 
-
-export const validatePhone = async (telefone: string): Promise<void> => {
-  
-const telefoneRegex = /^(\+?55\s?)?(\(?\d{2}\)?\s?)?9?\d{4}-?\d{4}$/;
+export const validatePhone = (telefone: string): void => {
+  const telefoneRegex = /^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/;
 
   if (!telefoneRegex.test(telefone)) {
-    throw new HttpException(400, "Formato de telefone inválido!Exemplo válido: (11) 98765-4321");
-    
+    throw new HttpException(
+      400,
+      "Formato de telefone inválido! Exemplos válidos: (11) 98765-4321 ou 11987654321."
+    );
   }
-}
+};
 
-export const validateEmail = async (email: string): Promise<void> => {
-  
+export const validateEmail = (email: string): void => {
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   if (!emailRegex.test(email)) {
-    throw new HttpException(400, "Formato de email inválido!")
+    throw new HttpException(400, "Formato de email inválido!");
   }
-}
-
-
-
+};
