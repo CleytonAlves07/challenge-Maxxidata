@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createTipoProfissionalController, getAllTipoProfissionalController } from '../controller/tipoProfissionalController';
+import { createTipoProfissionalController, getAllTipoProfissionalController, getByIdTipoProfissionalController } from '../controller/tipoProfissionalController';
 
 const tipoProfissionalRouter = Router();
 
@@ -82,5 +82,57 @@ tipoProfissionalRouter.post('/register/tipo-profissional', createTipoProfissiona
  *         description: Erro interno do servidor.
  */
 tipoProfissionalRouter.get('/tipos-profissionais', getAllTipoProfissionalController);
+
+/**
+ * @swagger
+ * /tipo-profissional/{id}:
+ *   get:
+ *     summary: Busca um tipo de profissional pelo ID
+ *     tags:
+ *       - Tipos de Profissionais
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do tipo de profissional
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: Tipo de profissional encontrado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 descricao:
+ *                   type: string
+ *                   example: Fisioterapeuta
+ *                 situacao:
+ *                   type: string
+ *                   example: Ativo
+ *       404:
+ *         description: Tipo de profissional não encontrado.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Tipo de profissional não encontrado
+ *       500:
+ *         description: Erro interno no servidor.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Erro interno ao procurar o tipo profissional.
+ */
+tipoProfissionalRouter.get('/tipo-profissional/:id', getByIdTipoProfissionalController);
 
 export { tipoProfissionalRouter };

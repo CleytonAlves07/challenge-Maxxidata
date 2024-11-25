@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { createTipoProfissionalService } from '../service/TipoProfissional/createTipoProfissionalService';
 import { getAllTipoProfissionalService } from '../service/TipoProfissional/getAllTipoProfissionalService';
+import { getByIdTipoProfissionalService } from '../service/TipoProfissional/getByIdTipoProfissionalService';
 
 export const createTipoProfissionalController = async (
   req: Request, 
@@ -26,4 +27,19 @@ export const getAllTipoProfissionalController = async (_req: Request, res: Respo
   const tiposProfissionais = await getAllTipoProfissionalService();
 
   res.status(200).json(tiposProfissionais);
+}
+
+
+export const getByIdTipoProfissionalController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+
+
+    const tipoProfissional = await getByIdTipoProfissionalService(id);
+    
+    res.status(200).json(tipoProfissional);
+
+  } catch (error) {
+    next(error);
+  }
 }
