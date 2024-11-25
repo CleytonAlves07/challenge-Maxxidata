@@ -32,7 +32,7 @@ const swaggerOptions: Options = {
     info: {
       title: 'API Profissionais e tipo de Profissionais',
       version: '1.0.0',
-      description: 'API para gerenciamento de profissionais',
+      description: 'API para gerenciamento de profissionais e tipos de profissionais',
     },
     servers: [
       {
