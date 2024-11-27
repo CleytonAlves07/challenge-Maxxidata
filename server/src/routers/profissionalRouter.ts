@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { 
   createProfissionalController, 
+  deleteProfissionalController, 
   getAllProfissionalController, 
   getByIdProfissionalController 
 } from '../controller/profissionalController';
@@ -189,5 +190,57 @@ profissionalRouter.get('/profissionais', getAllProfissionalController);
  *                   example: "Erro interno ao procurar o profissional."
  */
 profissionalRouter.get('/profissional/:id', getByIdProfissionalController);
+
+/**
+ * @swagger
+ * /profissional/{id}:
+ *   delete:
+ *     summary: Exclui um profissional por ID
+ *     tags:
+ *       - Profissionais
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID do profissional a ser excluído
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     responses:
+ *       200:
+ *         description: Profissional deletado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: "Profissional deletado com sucesso."
+ *       404:
+ *         description: Profissional não encontrado.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Profissional não encontrado."
+ *       500:
+ *         description: Erro interno do servidor.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Erro interno ao deletar o profissional."
+ */
+profissionalRouter.delete('/profissional/:id', deleteProfissionalController);
 
 export { profissionalRouter };

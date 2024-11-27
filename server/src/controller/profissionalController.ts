@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { createProfissionalService, IProfissional } from '../service/Profissional/createProfissionalService';
+import { createProfissionalService } from '../service/Profissional/createProfissionalService';
 import { getAllProfissionalService } from '../service/Profissional/getAllProfissionalService';
 import { getByIdProfissionalService } from '../service/Profissional/getByIdProfissionalService';
+import { deleteProfissionalService } from '../service/Profissional/deleteProfissionalService';
 
 export const createProfissionalController = async (
   req: Request,
@@ -25,21 +26,44 @@ export const createProfissionalController = async (
   }
 };
 
-export const getAllProfissionalController = async (_req: Request, res: Response, _next: NextFunction) => {
-  const profissionais = await getAllProfissionalService();
+export const getAllProfissionalController = async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    const profissionais = await getAllProfissionalService();
 
-  res.status(200).json(profissionais);
+    res.status(200).json({
+      success: true,
+      profissionais
+    });
+  } catch (error) {
+    next(error);
+  }
 }
 
 export const getByIdProfissionalController = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
 
-    console.log('id controller:', id);
-
     const profissional = await getByIdProfissionalService(id);
     
-    res.status(200).json(profissional);
+    res.status(200).json({
+      success: true,
+      profissional
+    });
+
+  } catch (error) {
+    next(error);
+  }
+}
+export const deleteProfissionalController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+
+    await deleteProfissionalService(id);
+    
+    res.status(200).json({
+      success: true,
+      message: "Profissional deletado com sucesso."
+    });
 
   } catch (error) {
     next(error);
