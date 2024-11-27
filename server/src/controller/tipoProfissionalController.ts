@@ -3,6 +3,7 @@ import { createTipoProfissionalService } from '../service/TipoProfissional/creat
 import { getAllTipoProfissionalService } from '../service/TipoProfissional/getAllTipoProfissionalService';
 import { getByIdTipoProfissionalService } from '../service/TipoProfissional/getByIdTipoProfissionalService';
 import { deleteTipoProfissionalService } from '../service/TipoProfissional/deleteTipoProfissionalService';
+import { editTipoProfissionalService } from '../service/TipoProfissional/editTipoProfissionalService';
 
 export const createTipoProfissionalController = async (
   req: Request, 
@@ -65,6 +66,23 @@ export const getByIdTipoProfissionalController = async (req: Request, res: Respo
       res.status(200).json({
         success: true,
         message: "Tipo de profissional deletado com sucesso."
+      });
+
+    } catch (error) {
+      next(error);
+    }
+  }
+  export const editTipoProfissionalController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const { descricao, situacao } = req.body;
+
+      const tipoProfissional = await editTipoProfissionalService( id, descricao, situacao );
+    
+      res.status(200).json({
+        success: true,
+        message: "Tipo de profissional editado com sucesso.",
+        tipoProfissional
       });
 
     } catch (error) {

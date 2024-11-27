@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createTipoProfissionalController, getAllTipoProfissionalController, getByIdTipoProfissionalController, deleteTipoProfissionalController } from '../controller/tipoProfissionalController';
+import { createTipoProfissionalController, getAllTipoProfissionalController, getByIdTipoProfissionalController, deleteTipoProfissionalController, editTipoProfissionalController } from '../controller/tipoProfissionalController';
 
 const tipoProfissionalRouter = Router();
 
@@ -132,7 +132,7 @@ tipoProfissionalRouter.get('/tipos-profissionais', getAllTipoProfissionalControl
 
 /**
  * @swagger
- * /tipos-profissionais/{id}:
+ * /tipo-profissional/{id}:
  *   get:
  *     summary: Retorna um tipo de profissional pelo ID
  *     tags:
@@ -243,5 +243,89 @@ tipoProfissionalRouter.get('/tipo-profissional/:id', getByIdTipoProfissionalCont
  *                   example: Erro interno ao deletar o tipo profissional.
  */
 tipoProfissionalRouter.delete('/tipo-profissional/:id', deleteTipoProfissionalController);
+
+/**
+ * @swagger
+ * /tipo-profissional/{id}:
+ *   put:
+ *     summary: Atualiza um tipo de profissional pelo ID
+ *     tags:
+ *       - Tipos de Profissionais
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do tipo de profissional a ser atualizado
+ *         example: 1
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               descricao:
+ *                 type: string
+ *                 description: Nova descrição do tipo de profissional.
+ *                 example: Fisioterapeuta
+ *               situacao:
+ *                 type: string
+ *                 description: Situação atual do tipo de profissional (ativo ou inativo).
+ *                 example: ativo
+ *             required:
+ *               - descricao
+ *               - situacao
+ *     responses:
+ *       200:
+ *         description: Tipo de profissional atualizado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Tipo de profissional editado com sucesso.
+ *                 tipoProfissional:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     descricao:
+ *                       type: string
+ *                       example: Fisioterapeuta
+ *                     situacao:
+ *                       type: string
+ *                       example: ativo
+ *       404:
+ *         description: Tipo de profissional não encontrado.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Tipo de profissional não encontrado.
+ *       500:
+ *         description: Erro interno no servidor.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Erro interno ao atualizar o tipo profissional.
+ */
+
+tipoProfissionalRouter.put('/tipo-profissional/:id', editTipoProfissionalController);
+
 
 export { tipoProfissionalRouter };

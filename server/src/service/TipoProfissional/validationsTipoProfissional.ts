@@ -1,3 +1,4 @@
+import { prisma } from '../../db/prismaClient';
 import HttpException from '../../errors/HttpException';
 import { ITipoProfissional } from './createTipoProfissionalService';
 
@@ -22,3 +23,18 @@ export const validateDescription = (descricao: string): void => {
     throw new HttpException(400, "A descrição contém caracteres inválidos. Apenas letras, espaços e alguns caracteres especiais são permitidos.");
   }
 };
+
+export const existTipoProfissional = async (id: string): Promise<ITipoProfissional> => {
+  
+  const tipoProfissional = await prisma.tipoProfissional.findUnique({
+    where: {id: Number(id)},
+  });
+
+  if (!tipoProfissional) {
+    throw new HttpException(400, "Tipo de profissional não encontrado.");
+  }
+
+  return tipoProfissional;
+};
+
+
