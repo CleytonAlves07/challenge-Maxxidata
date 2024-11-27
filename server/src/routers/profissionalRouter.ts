@@ -113,6 +113,16 @@ profissionalRouter.post('/register/profissional', createProfissionalController);
  *                   situacao:
  *                     type: string
  *                     example: "Ativo"
+ *       404:
+ *         description: Não há profissionais cadastrados.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Não existe registro de profissionais.
  *       500:
  *         description: Erro interno do servidor.
  *         content:
