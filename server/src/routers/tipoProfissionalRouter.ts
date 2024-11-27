@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createTipoProfissionalController, getAllTipoProfissionalController, getByIdTipoProfissionalController } from '../controller/tipoProfissionalController';
+import { createTipoProfissionalController, getAllTipoProfissionalController, getByIdTipoProfissionalController, deleteTipoProfissionalController } from '../controller/tipoProfissionalController';
 
 const tipoProfissionalRouter = Router();
 
@@ -22,7 +22,7 @@ const tipoProfissionalRouter = Router();
  *             properties:
  *               descricao:
  *                 type: string
- *                 description: Descrição do tipo de profissional (mínimo 8, máximo 100 caracteres).
+ *                 description: Descrição do tipo de profissional (mínimo 6, máximo 100 caracteres).
  *                 example: Médico
  *               situacao:
  *                 type: string
@@ -36,19 +36,41 @@ const tipoProfissionalRouter = Router();
  *             schema:
  *               type: object
  *               properties:
- *                 id:
- *                   type: number
- *                   example: 1
- *                 descricao:
- *                   type: string
- *                   example: Médico
- *                 situacao:
- *                   type: string
- *                   example: Ativo
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 tipoProfissional:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: number
+ *                       example: 1
+ *                     descricao:
+ *                       type: string
+ *                       example: Médico
+ *                     situacao:
+ *                       type: string
+ *                       example: Ativo
  *       400:
- *         description: Dados inválidos. Garantir que os campos 'descricao' e 'situacao' não estão vazios e a descrição tenha entre 8 e 100 caracteres.
+ *         description: Dados inválidos. Garantir que os campos 'descricao' e 'situacao' não estão vazios e a descrição tenha entre 6 e 100 caracteres.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: A descrição deve ter entre 6 e 100 caracteres.
  *       500:
  *         description: Erro interno do servidor.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Erro interno ao registrar o tipo profissional.
  */
 tipoProfissionalRouter.post('/register/tipo-profissional', createTipoProfissionalController);
 
@@ -56,62 +78,96 @@ tipoProfissionalRouter.post('/register/tipo-profissional', createTipoProfissiona
  * @swagger
  * /tipos-profissionais:
  *   get:
- *     summary: Retorna todos os tipos de profissionais cadastrados
+ *     summary: Retorna todos os tipos de profissionais
  *     tags:
  *       - Tipos de Profissionais
  *     responses:
  *       200:
- *         description: Lista de tipos de profissionais cadastrados.
+ *         description: Lista de tipos de profissionais.
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: number
- *                     example: 1
- *                   descricao:
- *                     type: string
- *                     example: Médico
- *                   situacao:
- *                     type: string
- *                     example: Ativo
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: number
+ *                         example: 1
+ *                       descricao:
+ *                         type: string
+ *                         example: Médico
+ *                       situacao:
+ *                         type: string
+ *                         example: Ativo
+ *       404:
+ *         description: Não há tipos de profissionais cadastrados.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Não existe registro de tipos de profissionais.
  *       500:
- *         description: Erro interno do servidor.
+ *         description: Erro interno ao consultar os tipos de profissionais.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Erro interno ao consultar os tipos de profissionais.
  */
+
 tipoProfissionalRouter.get('/tipos-profissionais', getAllTipoProfissionalController);
 
 /**
  * @swagger
- * /tipo-profissional/{id}:
+ * /tipos-profissionais/{id}:
  *   get:
- *     summary: Busca um tipo de profissional pelo ID
+ *     summary: Retorna um tipo de profissional pelo ID
  *     tags:
  *       - Tipos de Profissionais
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         schema:
- *           type: integer
  *         description: ID do tipo de profissional
- *         example: 1
+ *         schema:
+ *           type: string
+ *           example: "1"
  *     responses:
  *       200:
- *         description: Tipo de profissional encontrado com sucesso.
+ *         description: Tipo de profissional encontrado.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 descricao:
- *                   type: string
- *                   example: Fisioterapeuta
- *                 situacao:
- *                   type: string
- *                   example: Ativo
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: number
+ *                       example: 1
+ *                     descricao:
+ *                       type: string
+ *                       example: Médico
+ *                     situacao:
+ *                       type: string
+ *                       example: Ativo
  *       404:
  *         description: Tipo de profissional não encontrado.
  *         content:
@@ -123,6 +179,59 @@ tipoProfissionalRouter.get('/tipos-profissionais', getAllTipoProfissionalControl
  *                   type: string
  *                   example: Tipo de profissional não encontrado
  *       500:
+ *         description: Erro interno ao procurar o tipo de profissional.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Erro interno ao procurar o tipo de profissional.
+ */
+
+tipoProfissionalRouter.get('/tipo-profissional/:id', getByIdTipoProfissionalController);
+
+/**
+ * @swagger
+ * /tipo-profissional/{id}:
+ *   delete:
+ *     summary: Deleta um tipo de profissional pelo ID
+ *     tags:
+ *       - Tipos de Profissionais
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do tipo de profissional a ser deletado
+ *         example: 1
+ *     responses:
+ *       200:
+ *         description: Tipo de profissional deletado com sucesso.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Tipo de profissional deletado com sucesso.
+ *       404:
+ *         description: Tipo de profissional não encontrado.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Tipo de profissional não encontrado.
+ *       500:
  *         description: Erro interno no servidor.
  *         content:
  *           application/json:
@@ -131,8 +240,8 @@ tipoProfissionalRouter.get('/tipos-profissionais', getAllTipoProfissionalControl
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Erro interno ao procurar o tipo profissional.
+ *                   example: Erro interno ao deletar o tipo profissional.
  */
-tipoProfissionalRouter.get('/tipo-profissional/:id', getByIdTipoProfissionalController);
+tipoProfissionalRouter.delete('/tipo-profissional/:id', deleteTipoProfissionalController);
 
 export { tipoProfissionalRouter };

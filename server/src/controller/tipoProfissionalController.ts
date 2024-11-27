@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { createTipoProfissionalService } from '../service/TipoProfissional/createTipoProfissionalService';
 import { getAllTipoProfissionalService } from '../service/TipoProfissional/getAllTipoProfissionalService';
 import { getByIdTipoProfissionalService } from '../service/TipoProfissional/getByIdTipoProfissionalService';
+import { deleteTipoProfissionalService } from '../service/TipoProfissional/deleteTipoProfissionalService';
 
 export const createTipoProfissionalController = async (
   req: Request, 
@@ -23,10 +24,18 @@ export const createTipoProfissionalController = async (
   }
 };
 
-export const getAllTipoProfissionalController = async (_req: Request, res: Response, _next: NextFunction) => {
-  const tiposProfissionais = await getAllTipoProfissionalService();
+export const getAllTipoProfissionalController = async (_req: Request, res: Response, next: NextFunction) => {
+  try {
+    const tiposProfissionais = await getAllTipoProfissionalService();
 
-  res.status(200).json(tiposProfissionais);
+  res.status(200).json({
+    message: "Tipos de profissionais retornado com sucesso.",
+    success: true,
+    tiposProfissionais
+  });
+  } catch (error) {
+    next(error);
+  }
 }
 
 
@@ -34,12 +43,31 @@ export const getByIdTipoProfissionalController = async (req: Request, res: Respo
   try {
     const { id } = req.params;
 
-
     const tipoProfissional = await getByIdTipoProfissionalService(id);
     
-    res.status(200).json(tipoProfissional);
+    res.status(200).json({
+      message: "Tipo de profissional encontrado com sucesso",
+      success: true,
+      tipoProfissional
+    });
 
   } catch (error) {
     next(error);
   }
 }
+
+  export const deleteTipoProfissionalController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+
+      await deleteTipoProfissionalService(id);
+    
+      res.status(200).json({
+        success: true,
+        message: "Tipo de profissional deletado com sucesso."
+      });
+
+    } catch (error) {
+      next(error);
+    }
+  }
