@@ -1,0 +1,22 @@
+meta {
+  name: editProfissional
+  type: http
+  seq: 8
+}
+
+put {
+  url: http://localhost:3000/profissional/15
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": 3,
+    "nome": "João Silva",
+    "telefone": "123456789",
+    "email": "joao.silva@example.com",
+    "situacao": "ativo",
+    "profissionalId": 1
+  }
+}
