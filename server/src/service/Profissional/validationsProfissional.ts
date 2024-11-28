@@ -1,3 +1,4 @@
+import { prisma } from '../../db/prismaClient';
 import HttpException from '../../errors/HttpException';
 import { IProfissional } from './createProfissionalService';
 
@@ -49,3 +50,16 @@ export const validateEmail = (email: string): void => {
     throw new HttpException(400, "Formato de email inválido!");
   }
 };
+
+export const existProfissional = async (id: string): Promise<void> => {
+  
+  const profissional = await prisma.profissional.findUnique({
+    where: {id: Number(id)},
+  });
+
+  if (!profissional) {
+    throw new HttpException(404, "Profissional não encontrado.");
+  }
+
+};
+

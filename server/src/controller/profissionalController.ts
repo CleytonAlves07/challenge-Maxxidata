@@ -3,6 +3,7 @@ import { createProfissionalService } from '../service/Profissional/createProfiss
 import { getAllProfissionalService } from '../service/Profissional/getAllProfissionalService';
 import { getByIdProfissionalService } from '../service/Profissional/getByIdProfissionalService';
 import { deleteProfissionalService } from '../service/Profissional/deleteProfissionalService';
+import { editProfissionalService } from '../service/Profissional/editProfissionalService';
 
 export const createProfissionalController = async (
   req: Request,
@@ -69,3 +70,21 @@ export const deleteProfissionalController = async (req: Request, res: Response, 
     next(error);
   }
 }
+
+export const editProfissionalController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const { nome, telefone, email, situacao, profissionalId } = req.body;
+
+      const profissional = await editProfissionalService( id, nome, telefone, email, situacao, profissionalId );
+    
+      res.status(200).json({
+        success: true,
+        message: "Profissional editado com sucesso.",
+        profissional
+      });
+
+    } catch (error) {
+      next(error);
+    }
+  }

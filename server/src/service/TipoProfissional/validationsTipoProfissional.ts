@@ -24,17 +24,16 @@ export const validateDescription = (descricao: string): void => {
   }
 };
 
-export const existTipoProfissional = async (id: string): Promise<ITipoProfissional> => {
+export const existTipoProfissional = async (id: string): Promise<void> => {
   
   const tipoProfissional = await prisma.tipoProfissional.findUnique({
     where: {id: Number(id)},
   });
 
   if (!tipoProfissional) {
-    throw new HttpException(400, "Tipo de profissional não encontrado.");
+    throw new HttpException(404, "Tipo de profissional não encontrado.");
   }
 
-  return tipoProfissional;
 };
 
 
